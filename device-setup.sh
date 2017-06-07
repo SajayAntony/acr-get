@@ -8,7 +8,8 @@ fi
 #Get the registry and application details from the user.
 
 read -p 'Login URL: ' LOGIN_URL
-read -p 'Image name $(LOGIN_URL)/image: ' APP_NAME
+printf "Image name $LOGIN_URL/[image] "
+read APP_NAME
 
 IMAGE="$LOGIN_URL/$APP_NAME"
 
@@ -29,7 +30,7 @@ get_container_id()
     #so we try again after a few seconds to get the container id again. 
     CID=$(docker ps | grep $IMAGE| awk '{print $1}')   
     if [ -z "$CID" ]; then
-      sleep 10 
+      sleep 5 
       CID=$(docker ps | grep $IMAGE| awk '{print $1}') 
     fi 
 }
@@ -38,14 +39,13 @@ get_container_id()
 watch_for_updates()
 {
   echo Pulling Latest $IMAGE
+
+  #Update container ID 
   get_container_id
 
-  echo "----------------------------------" 
-  echo $CID
-  echo "----------------------------------" 
-
   if [ -z "$CID" ]; then
-     echo "No running container so running and returning"
+     echo "No container found for $IMAGE."
+     echo "Launching container..."
      docker run -d $IMAGE
      return;
   fi
@@ -63,10 +63,14 @@ watch_for_updates()
         
         YELLOW='\033[0;33m'
 	NC='\033[0m' # No Color
-        echo -e "${YELLOW}Upgrading $NAME ${NC}"
-        docker stop $NAME
+        echo -e "${YELLOW}Upgrading $NAME "
+        echo "Stopping Container" 
+	docker stop $NAME
         docker rm -f $NAME
-        docker run -d $NAME
+        
+	echo "Starting $IMAGE ..."
+	docker run -d --name $NAME $IMAGE >/dev/null
+        echo "${NC}..."
     fi
   done
 }
