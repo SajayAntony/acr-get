@@ -1,0 +1,3 @@
+FROM armv7/armhf-ubuntu_core
+COPY . /
+CMD ["/bin/sh", "/a.sh"]
