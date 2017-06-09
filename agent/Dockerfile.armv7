@@ -1,0 +1,5 @@
+FROM armv7/armhf-ubuntu_core
+COPY ./device-setup.sh /device-setup.sh 
+CMD ["/bin/sh", "/device-setup.sh"] 
+
+
