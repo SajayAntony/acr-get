@@ -1,19 +1,31 @@
-# Container Autoupdate from a Registry
-Devices like Raspberry Pis ,are capable of running containers. The sample helps to run a monitoring agent on the device that launches and application and will autoupdate when the tag is udpated on the registry. 
+# Auto updating container based applications
+Devices like Raspberry Pis ,are capable of running containers and can easily update an application that is running as a container using a simple agent. The sample helps to run a monitoring agent on the device that launches an  application and will autoupdate when a the app is udpated on the registry.
 
 ## Build and push your application 
-```
-cd app
-docker build -t $REGISTRY\app .
-docker push $REGISTRY\app
-```
 
+You can use the test applciation available under [test/testapp](test/testapp)
+
+```
+docker build -t $REGISTRY_HOST\testapp .
+docker push $REGISTRY_HOST\testapp
+```
+> Make sure you have configured the `REGSITRY_HOST` variable to point to the registry you want to push your app to. 
 
 ## Device setup
 Ensure that the device has access to a Docker Registry that is hosting your image. On the device run the following command. 
+
 ```
-source<(curl -L someurl)
+docker build -t agent .
+docker run -it --rm -v /var/run/docker.sock:/var/dun/docker.sock agent
 ```
 
+## Push an update
 
-You can now try updating the application and once you push the udpate to the registry, you should see that the device downloads the udpate and runs the new container after stopping the old container. 
+Run the [test/update.sh](test/update.sh) script after navigating into the test directory to change the version of the application and push the updated app. 
+
+
+## Container Upgrade
+
+Once you push your application you should see that the agent detects a new image and stops the current container and relaunches the container with the newly downloaded image.
+
+
