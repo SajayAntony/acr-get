@@ -12,7 +12,7 @@ docker push $REGISTRY_HOST\testapp
 > Make sure you have configured the `REGSITRY_HOST` variable to point to the registry you want to push your app to. 
 
 ## Device setup
-Ensure that the device has access to a Docker Registry that is hosting your image. On the device run the following command. 
+Ensure that the device has access to a Docker Registry that is hosting your image. On the device run the following command in the [agent](agent) directory.
 
 ```
 docker build -t agent .
