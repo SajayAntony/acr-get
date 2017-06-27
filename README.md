@@ -28,4 +28,4 @@ Run the [test/update.sh](test/update.sh) script after navigating into the test d
 
 Once you push your application you should see that the agent detects a new image and stops the current container and relaunches the container with the newly downloaded image.
 
-
+![Auto sample animation](test/testupdate.gif)
