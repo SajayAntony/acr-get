@@ -53,24 +53,23 @@ watch_for_updates()
   docker pull $IMAGE
   for im in $CID
   do
+    NC='\033[0m' # No Color
+    YELLOW='\033[0;33m'
     LATEST=`docker inspect --format "{{.Id}}" $IMAGE`
     RUNNING=`docker inspect --format "{{.Image}}" $im`
     NAME=`docker inspect --format '{{.Name}}' $im | sed "s/\///g"`
-    echo "Latest : " $LATEST 
-    echo "Running: " $RUNNING
+    echo -e "${NC}Latest : " $LATEST 
+    echo -e "${NC}Running: " $RUNNING
     if [ "$RUNNING" != "$LATEST" ];then
-        #We are upgrading the container 
-        
-        YELLOW='\033[0;33m'
-	NC='\033[0m' # No Color
+        #We are upgrading the container                   
         echo -e "${YELLOW}Upgrading $NAME "
         echo "Stopping Container" 
-	docker stop $NAME
+	      docker stop $NAME
         docker rm -f $NAME
         
-	echo "Starting $IMAGE ..."
-	docker run -d --name $NAME $IMAGE >/dev/null
-        echo "${NC}..."
+	      echo "Starting $IMAGE ..."
+	      docker run -d --name $NAME $IMAGE >/dev/null
+        echo -e "${NC}..."
     fi
   done
 }
