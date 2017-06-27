@@ -1,5 +1,5 @@
 # Auto updating container based applications
-Devices like Raspberry Pis ,are capable of running containers and can easily update an application that is running as a container using a simple agent. The sample helps to run a monitoring agent on the device that launches an  application and will autoupdate when a the app is udpated on the registry.
+Devices like Raspberry Pis are capable of running containers and can easily update an application that is running as a container using a simple agent. The sample helps to run a monitoring agent on the device that launches an  application and will autoupdate when a the app is udpated on the registry.
 
 ## Build and push your application 
 
